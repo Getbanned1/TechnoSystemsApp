@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TechnoSystemsApp"
         mc:Ignorable="d"
-        Title="ТехноСистемы" Height="450" Width="800">
+        Title="ТехноСистемы" Height="450" Width="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <StackPanel x:Name="NavigationPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Button x:Name="Tariff" Margin="10,0,0,0" Content="Тарифы" Width="50" Click="Tariff_Click" ></Button>
-            <Button x:Name="Requests" Content="Заявки" Margin="10,0,0,0" Width="50" ></Button>
+            <Button x:Name="Requests" Content="Заявки" Margin="10,0,0,0" Width="50" Click="Requests_Click" ></Button>
     
         </StackPanel>
         <Frame Grid.Row="1" x:Name="MainFrame" VerticalAlignment="Stretch" ></Frame>

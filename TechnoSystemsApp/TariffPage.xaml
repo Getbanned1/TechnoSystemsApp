@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" x:Name="SearchMenu" Orientation="Horizontal">
             <Label Content="Поиск" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-            <TextBox x:Name="SearchBar" Width="150" Height="30" TextAlignment="Justify"></TextBox>
+            <TextBox x:Name="SearchBar" Width="150" Height="30" TextAlignment="Justify" TextChanged="SearchBar_TextChanged"></TextBox>
             <Label Content="Сортировать" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="SortBox" Width="100" Height="30" VerticalAlignment="Center"></ComboBox>
         </StackPanel>

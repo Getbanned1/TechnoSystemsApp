@@ -18,31 +18,39 @@ using TechnoSystemsApp.Data;
 namespace TechnoSystemsApp
 {
     /// <summary>
-    /// Логика взаимодействия для TariffPage.xaml
+    /// Логика взаимодействия для RequestsPage.xaml
     /// </summary>
-    public partial class TariffPage : Page
+    public partial class RequestsPage : Page
     {
-        public TariffPage(string role)
+        public RequestsPage()
         {
             InitializeComponent();
-            SearchMenu.Visibility = role == "Гость" ? SearchMenu.Visibility = Visibility.Collapsed : SearchMenu.Visibility = Visibility.Visible;
-            LoadTariffs();
-            
+            LoadRequests();
+            DataSortBox.ItemsSource = new List<string> { "Все время", "По возрастанию", "По убыванию" };
         }
-        public void LoadTariffs()
+        public void LoadRequests()
         {
-            TariffCard.Items.Clear(); // <- очищаем дизайн-тайм элементы
             using (var context = new TechnoSystemsContext())
             {
-                TariffCard.ItemsSource = context.Tariffs
-                    .Include(t => t.Requests)
-                    .Include(t => t.Service)
+                RequestsView.ItemsSource = context.Requests
+                    .Include(t => t.Status)
+                    .Include(t => t.Tariff)
+                    .Include(t => t.User)
 
                     .ToList();
+                var statuses = context.RequestStatuses.Select(s => s.Name).ToList();
+                statuses.Insert(0, "Все");
+                SortBox.ItemsSource = statuses;
 
             }
         }
-        private void UpdateTariffs()
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateRequests();
+        }
+
+        private void UpdateRequests()
         {
             using (var context = new TechnoSystemsContext())
             {
@@ -76,9 +84,10 @@ namespace TechnoSystemsApp
             }
 
         }
-        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void SortBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateTariffs();
+            UpdateRequests();
         }
     }
 }

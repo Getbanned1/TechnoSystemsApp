@@ -29,7 +29,7 @@ namespace TechnoSystemsApp
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             var role = Auth();
-            MainWindow mainWindow = new MainWindow(role);
+            MainWindow mainWindow = new MainWindow(role.Name);
             mainWindow.Show();
             this.Close();
         }
@@ -38,7 +38,7 @@ namespace TechnoSystemsApp
         {
             Role role = new Role();
             role.Name = "Гость";
-            MainWindow mainWindow = new MainWindow(role);
+            MainWindow mainWindow = new MainWindow(role.Name);
             mainWindow.Show();
             this.Close();
         }

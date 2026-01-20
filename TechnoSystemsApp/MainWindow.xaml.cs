@@ -18,19 +18,30 @@ namespace TechnoSystemsApp;
 public partial class MainWindow : Window
 {
     static string userRole;
-    public MainWindow(Role role)
+    public MainWindow(string role)
     {
         InitializeComponent();
-        userRole = role.Name;
         MainFrame.Navigate(new TariffPage(role));
+        userRole = role;
+        CheckUserRole();
     }
     public void CheckUserRole()
     {
-        //if (userRole.Name ==;
+        if (userRole == "Гость")
+        {
+            NavigationPanel.Visibility = Visibility.Collapsed;
+        }
+
     }
 
     private void Tariff_Click(object sender, RoutedEventArgs e)
     {
         MainFrame.Navigate(new TariffPage(userRole));
+    }
+
+    private void Requests_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new RequestsPage());
+
     }
 }
