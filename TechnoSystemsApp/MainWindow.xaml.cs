@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,9 +22,15 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         userRole = role.Name;
+        MainFrame.Navigate(new TariffPage(role));
     }
     public void CheckUserRole()
     {
         //if (userRole.Name ==;
+    }
+
+    private void Tariff_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new TariffPage(userRole));
     }
 }

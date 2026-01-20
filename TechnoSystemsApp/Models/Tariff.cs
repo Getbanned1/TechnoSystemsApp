@@ -26,4 +26,6 @@ public partial class Tariff
     public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 
     public virtual Service Service { get; set; } = null!;
+
+    public string ImagePath => string.IsNullOrEmpty(FileName) ? "/Images/no-image.png" : $"/Images/{FileName}";
 }
