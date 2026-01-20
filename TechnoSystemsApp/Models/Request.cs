@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using TechnoSystemsApp.Models;
 
-namespace TechnoSystemsApp;
-
+namespace TechnoSystemsApp.Models;
 public partial class Request
 {
     public int Id { get; set; }

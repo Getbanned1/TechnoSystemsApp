@@ -26,6 +26,7 @@ namespace TechnoSystemsApp
         {
             InitializeComponent();
             SearchMenu.Visibility = role == "Гость" ? SearchMenu.Visibility = Visibility.Collapsed : SearchMenu.Visibility = Visibility.Visible;
+            DateSortBox.ItemsSource = new List<string> { "Все", "По возрастанию", "По убыванию" };
             LoadTariffs();
             
         }
@@ -46,37 +47,37 @@ namespace TechnoSystemsApp
         {
             using (var context = new TechnoSystemsContext())
             {
-                var query = context.Requests
-                    .Include(t => t.Status)
-                    .Include(t => t.Tariff)
-                    .Include(t => t.User).AsQueryable();
+                var query = context.Tariffs
+                    .Include(t => t.Requests)
+                    .Include(t => t.Service).AsQueryable();
                 if (!string.IsNullOrEmpty(SearchBar.Text))
                 {
                     string searchtext = SearchBar.Text.ToLower();
-                    query = query.Where(r => r.User.FullName.ToLower().Contains(searchtext) ||
+                    query = query.Where(r => r.Name.ToLower().Contains(searchtext) ||
                     r.Id.ToString().Contains(searchtext));
                 }
-                if (SortBox.SelectedItem != null && SortBox.SelectedItem.ToString() != "Все")
+
+                if (DateSortBox.SelectedItem != null && DateSortBox.SelectedItem.ToString() != "Все время")
                 {
-                    var item = SortBox.SelectedItem.ToString();
-                    query = query.Where(r => r.Status.Name == item);
-                }
-                if (DataSortBox.SelectedItem != null && DataSortBox.SelectedItem.ToString() != "Все время")
-                {
-                    if (DataSortBox.SelectedItem.ToString() == "По возрастанию")
-                        query = query.OrderBy(r => r.Date);
+                    if (DateSortBox.SelectedItem.ToString() == "По возрастанию")
+                        query = query.OrderBy(r => r.StartDate);
                     else
                     {
-                        query = query.OrderByDescending(r => r.Date);
+                        query = query.OrderByDescending(r => r.StartDate);
 
                     }
                 }
 
-                RequestsView.ItemsSource = query.ToList();
+                TariffCard.ItemsSource = query.ToList();
             }
 
         }
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateTariffs();
+        }
+
+        private void DateSortBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateTariffs();
         }

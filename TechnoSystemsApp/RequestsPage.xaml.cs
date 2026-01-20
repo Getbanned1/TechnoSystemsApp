@@ -89,5 +89,21 @@ namespace TechnoSystemsApp
         {
             UpdateRequests();
         }
+
+        private void CreateRequest_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void RequestsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (RequestsView.SelectedItem is Models.Request selectedrequest)
+            {
+                var editwindow = new RequestsChangeWindow(selectedrequest);
+                editwindow.ShowDialog();
+
+                UpdateRequests();
+            }
+        }
     }
 }

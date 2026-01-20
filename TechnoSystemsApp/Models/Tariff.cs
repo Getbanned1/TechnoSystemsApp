@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TechnoSystemsApp;
-
+namespace TechnoSystemsApp.Models;
 public partial class Tariff
 {
     public int Id { get; set; }

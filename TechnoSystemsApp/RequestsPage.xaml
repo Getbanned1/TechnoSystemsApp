@@ -21,8 +21,9 @@
             <ComboBox x:Name="SortBox" Width="100" Height="30" VerticalAlignment="Center" SelectionChanged="SortBox_SelectionChanged"></ComboBox>
             <Label Content="Сортировать по дате" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="DataSortBox" Width="100" Height="30" VerticalAlignment="Center" SelectionChanged="SortBox_SelectionChanged"></ComboBox>
+            <Button x:Name="CreateRequest" Content="Создать заявку" Width="auto" Height="30" Margin="10" Click="CreateRequest_Click"></Button>
         </StackPanel>
-        <ListView Grid.Row="1" x:Name="RequestsView">
+        <ListView Grid.Row="1" x:Name="RequestsView" SelectedItem="{Binding SelectedRequest}" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="RequestsView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID"
