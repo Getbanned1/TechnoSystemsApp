@@ -1,0 +1,49 @@
+﻿<Page x:Class="TechnoSystemsApp.TariffPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TechnoSystemsApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="200" d:DesignWidth="800"
+      Title="TariffPage">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" x:Name="SearchMenu" Orientation="Horizontal">
+            <Label Content="Поиск" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            <TextBox x:Name="SearchBar" Width="150" Height="30" TextAlignment="Justify"></TextBox>
+            <Label Content="Сортировать" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="SortBox" Width="100" Height="30" VerticalAlignment="Center"></ComboBox>
+        </StackPanel>
+        <ListBox x:Name="TariffCard" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" Background="Transparent">
+            d:ItemsSource="{Binding TariffList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Grid.Row="1" BorderThickness="1" CornerRadius="8" Margin="5" Padding="10">
+                        <Grid Width="800" x:Name="container">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="120"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Image Source = "{Binding ImagePath}" Grid.Column="0" Stretch="Uniform" ></Image>
+                            <StackPanel Grid.Row="1" Orientation="Vertical" 
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+            
+
+    </Grid>
+</Page>

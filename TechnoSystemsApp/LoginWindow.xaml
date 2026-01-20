@@ -1,0 +1,23 @@
+﻿<Window x:Class="TechnoSystemsApp.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechnoSystemsApp"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="450" Width="400">
+    <Grid>
+        <StackPanel>
+            <Label Content="Авторизация пользователя" Margin="10,10,0,0" HorizontalAlignment="Center" />
+            <Label Content="Логин" Margin="10,30,0,0" HorizontalAlignment="Center" />
+            <TextBox x:Name="LoginTextBox" Margin="10,10,0,0" Width="300" HorizontalAlignment="Center" />
+            <Label Content="Пароль" Margin="10,30,0,0" HorizontalAlignment="Center" />
+            <PasswordBox x:Name="PasswordTextBox" Margin="10,10,0,0" Width="300" HorizontalAlignment="Center" />
+            <Button x:Name="LoginButton" Content="Войти" Margin="10,20,0,0" Width="100" Click="LoginButton_Click"/>
+            <Button x:Name="GuestButton" Content="Войти как гость" Margin="10,20,0,0" Width="100" Click="GuestButton_Click"/>
+
+        </StackPanel>
+
+        
+    </Grid>
+</Window>
