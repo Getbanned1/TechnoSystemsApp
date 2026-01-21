@@ -36,9 +36,9 @@
             <Label  Content="Количество лицензий:" Margin="10,10"></Label>
             <TextBox x:Name="LicensesTextBox"  Height="30" Margin="0,0,0,0" Width="230"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label  Content="Комментарий: " Margin="10,10"></Label>
-            <TextBox x:Name="CommentTextBox"  Height="30" Margin="0,0,0,0" Width="230"></TextBox>
+            <TextBox x:Name="CommentTextBox"  Height="108" Margin="0,0,0,0" Width="230"></TextBox>
         </StackPanel>
         <Button Content="Сохранить изменения" x:Name="SaveButton" HorizontalAlignment="Left" Margin="211,164,0,0" Grid.Row="5" VerticalAlignment="Top" Width="178" Click="SaveButton_Click" Height="25"/>
 

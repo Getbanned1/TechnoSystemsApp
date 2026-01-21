@@ -27,4 +27,31 @@ public partial class Tariff
     public virtual Service Service { get; set; } = null!;
 
     public string ImagePath => string.IsNullOrEmpty(FileName) ? "/Images/no-image.png" : $"/Images/{FileName}";
+
+    public bool HasBigDiscount
+    {
+        get
+        {
+            if (Service?.Tariffs == null || Service.Tariffs.Count == 0)
+                return false;
+
+            double avgPrice = Service.Tariffs.Average(t => t.Price);
+            return Price < avgPrice * 0.85;
+        }
+    }
+    // Мало лицензий (<10%)
+    public bool LowLicenses =>
+        UserLimit > 0 &&
+        AvalibleLicenses < UserLimit * 0.1;
+
+    // Начало менее чем через 7 дней
+    public bool StartsSoon
+    {
+        get
+        {
+            var today = new DateOnly(2024, 5, 28);
+            var days = StartDate.DayNumber - today.DayNumber;
+            return days >= 0 && days <= 7;
+        }
+    }
 }

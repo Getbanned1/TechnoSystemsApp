@@ -24,9 +24,7 @@ namespace TechnoSystemsApp
     {
         private Request _request;
 
-        private List<RequestStatus> _status;
-        private List<Tariff> _tariff;
-        private List<User> _user;
+
 
         public RequestsChangeWindow(Request? request = null)
         {
