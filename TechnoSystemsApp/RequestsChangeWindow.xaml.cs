@@ -48,49 +48,15 @@ namespace TechnoSystemsApp
         }
         private void FillFields()
         {
-            TariffComboBox.SelectedItem = _request.Tariff;
-            StatusComboBox.SelectedItem = _request.Status;
-            UserComboBox.SelectedItem = _request.User;
+            TariffComboBox.SelectedValue = _request.TariffId;
+            StatusComboBox.SelectedValue = _request.StatusId;
+            UserComboBox.SelectedValue = _request.UserId;
 
             DateBox.SelectedDate = _request.Date.ToDateTime(TimeOnly.MinValue);
             LicensesTextBox.Text = _request.Licenses?.ToString();
             CommentTextBox.Text = _request.Comment;
         }
 
-        //public void ChangeRequest()
-        //{
-        //    using (var context = new TechnoSystemsContext())
-        //    {
-        //        var request = context.Requests.FirstOrDefault(r => r.Id == _request.Id);
-
-        //        if (request == null)
-        //        {
-        //            MessageBox.Show("Заявка не найдена");
-        //            return;
-        //        }
-
-        //        if (UserComboBox.SelectedItem is User user)
-        //            request.UserId = user.Id;
-
-        //        if (TariffComboBox.SelectedItem is Tariff tariff)
-        //            request.TariffId = tariff.Id;
-
-        //        if (StatusComboBox.SelectedItem is RequestStatus status)
-        //            request.StatusId = status.Id;
-
-        //        if (DateBox.SelectedDate.HasValue)
-        //            request.Date = DateOnly.FromDateTime(DateBox.SelectedDate.Value);
-        //        _request.Licenses = string.IsNullOrWhiteSpace(LicensesTextBox.Text)? null: int.Parse(LicensesTextBox.Text);
-
-        //        _request.Comment = CommentTextBox.Text;
-        //        if (_request.Id == 0)
-        //            context.Requests.Add(_request);
-        //        else
-        //            context.Requests.Update(_request);
-        //        context.SaveChanges();
-        //        DialogResult = true;
-        //    }
-        //}
         private void UpdateRequestFromControls(Request request)
         {
             if (UserComboBox.SelectedItem is User user) request.UserId = user.Id;
@@ -103,21 +69,59 @@ namespace TechnoSystemsApp
         }
 
 
+
+        private bool ValidateLicenses()
+        {
+            if (StatusComboBox.SelectedItem is not RequestStatus status)
+                return true;
+
+            // Статус "Подтверждена" (при необходимости замените имя)
+            if (status.Name != "Подтверждена")
+                return true;
+
+            if (TariffComboBox.SelectedItem is not Tariff tariff)
+                return true;
+
+            if (!int.TryParse(LicensesTextBox.Text, out int requestedLicenses))
+            {
+                MessageBox.Show("Введите корректное количество лицензий",
+                    "Ошибка валидации",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (requestedLicenses > tariff.AvalibleLicenses)
+            {
+                MessageBox.Show(
+                    $"Недостаточно свободных лицензий.\n" +
+                    $"Доступно: {tariff.AvalibleLicenses}, запрошено: {requestedLicenses}",
+                    "Недостаточно лицензий",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                return false;
+            }
+
+            return true;
+        }
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                if (!ValidateLicenses())
+                    return;
+
                 using (var context = new TechnoSystemsContext())
                 {
                     if (_request.Id == 0)
                     {
-                        // Новый объект — обновляем и добавляем
                         UpdateRequestFromControls(_request);
                         context.Requests.Add(_request);
                     }
                     else
                     {
-                        // Редактируем существующий объект из базы
                         var requestInDb = context.Requests.FirstOrDefault(r => r.Id == _request.Id);
                         if (requestInDb == null)
                         {
@@ -141,6 +145,7 @@ namespace TechnoSystemsApp
                 MessageBox.Show($"Ошибка при сохранении заявки:\n{ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
     }
 }

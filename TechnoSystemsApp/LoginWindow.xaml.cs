@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -29,33 +30,33 @@ namespace TechnoSystemsApp
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var role = Auth();
-            MainWindow mainWindow = new MainWindow(role.Name);
+            var user = Auth();
+            MainWindow mainWindow = new MainWindow(user);
             mainWindow.Show();
             this.Close();
         }
 
         private void GuestButton_Click(object sender, RoutedEventArgs e)
         {
-            Role role = new Role();
-            role.Name = "Гость";
-            MainWindow mainWindow = new MainWindow(role.Name);
+            User user = new User();
+            MainWindow mainWindow = new MainWindow(user);
             mainWindow.Show();
             this.Close();
         }
 
-        private Role Auth()
+        private User Auth()
         {
             using (var context = new TechnoSystemsContext())
             {
                 try
                 {
-                    var user = context.Users.FirstOrDefault(u => (LoginTextBox.Text == u.Email && PasswordTextBox.Password == u.Password));
+                    var user = context.Users.Include(u => u.Role).FirstOrDefault(u => (LoginTextBox.Text == u.Email && PasswordTextBox.Password == u.Password));
                     if (user == null)
                     {
                         MessageBox.Show($"Пользователь не найден" ,"Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    return context.Roles.FirstOrDefault(r => r.Id == user.RoleId);
+
+                    return user;
 
                 }
                 catch (Exception ex)

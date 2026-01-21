@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TechnoSystemsApp.Data;
+using TechnoSystemsApp.Models;
 
 namespace TechnoSystemsApp
 {
@@ -22,13 +23,15 @@ namespace TechnoSystemsApp
     /// </summary>
     public partial class TariffPage : Page
     {
-        public TariffPage(string role)
+        static User _user;
+        public TariffPage(User user)
         {
             InitializeComponent();
-            SearchMenu.Visibility = role == "Гость" ? SearchMenu.Visibility = Visibility.Collapsed : SearchMenu.Visibility = Visibility.Visible;
+            _user = user;
+            SearchMenu.Visibility = user.Role == null ? SearchMenu.Visibility = Visibility.Collapsed : SearchMenu.Visibility = Visibility.Visible;
             DateSortBox.ItemsSource = new List<string> { "Все", "По возрастанию", "По убыванию" };
             LoadTariffs();
-            
+
         }
         public void LoadTariffs()
         {
@@ -80,6 +83,57 @@ namespace TechnoSystemsApp
         private void DateSortBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateTariffs();
+        }
+
+        private void TariffCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TariffCard.SelectedItem is Tariff selectedTariff)
+            {
+                // Формируем сообщение для подтверждения
+                string message = $"Вы хотите оформить заявку на тариф:\n\n" +
+                                 $"Название: {selectedTariff.Name}\n" +
+                                 $"Сервис: {selectedTariff.Service.Name}\n" +
+                                 $"Дата начала: {selectedTariff.StartDate:dd.MM.yyyy}\n" +
+                                 $"Срок подписки: {selectedTariff.SubscriptionDuration} дней\n" +
+                                 $"Доступные лицензии: {selectedTariff.AvalibleLicenses}\n" +
+                                 $"Стоимость: {selectedTariff.Price} руб.";
+
+                // Отображаем MessageBox с подтверждением
+                MessageBoxResult result = MessageBox.Show(message, "Подтверждение заявки",
+                                                          MessageBoxButton.OKCancel, MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    try
+                    {
+                        // Создаем заявку (количество лицензий берем равным доступным лицензиям)
+                        Request newRequest = Request.CreateRequest(
+                            tariff: selectedTariff,
+                            user: _user,
+                            licenses: selectedTariff.AvalibleLicenses,
+                            comment: null // комментарий необязателен
+                        );
+
+                        // Здесь сохраняем заявку в базу (пример, зависит от вашего DbContext)
+                        using (var db = new TechnoSystemsContext())
+                        {
+                            db.Requests.Add(newRequest);
+                            db.SaveChanges();
+                        }
+
+                        MessageBox.Show($"Заявка на тариф '{selectedTariff.Name}' успешно оформлена!",
+                                        "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при создании заявки: {ex.Message}",
+                                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+
+                // Сброс выбора, чтобы можно было кликнуть снова
+                TariffCard.SelectedItem = null;
+            }
         }
     }
 }

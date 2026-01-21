@@ -24,4 +24,22 @@ public partial class Request
     public virtual Tariff Tariff { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+
+    public static Request CreateRequest(Tariff tariff, User user, int licenses, string? comment = null)
+    {
+        if (tariff == null) throw new ArgumentNullException(nameof(tariff));
+        if (user == null) throw new ArgumentNullException(nameof(user));
+        if (licenses <= 0) throw new ArgumentException("Количество лицензий должно быть больше нуля.", nameof(licenses));
+
+        return new Request
+        {
+            // Id не указываем!
+            TariffId = tariff.Id,
+            UserId = user.Id,
+            Licenses = 1,
+            Comment = comment,
+            Date = DateOnly.FromDateTime(DateTime.Now),
+            StatusId = 2 // например, "Новая" заявка
+        };
+    }
 }

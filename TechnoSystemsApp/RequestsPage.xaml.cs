@@ -92,9 +92,8 @@ namespace TechnoSystemsApp
 
         private void CreateRequest_Click(object sender, RoutedEventArgs e)
         {
-            var createWindow = new RequestsChangeWindow();
-            createWindow.ShowDialog();
-            UpdateRequests();
+            var createwindow = new RequestsChangeWindow();
+            createwindow.ShowDialog();
         }
 
         private void RequestsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)

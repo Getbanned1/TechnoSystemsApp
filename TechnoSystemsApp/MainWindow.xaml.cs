@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TechnoSystemsApp.Models;
 
 namespace TechnoSystemsApp;
 
@@ -17,17 +18,17 @@ namespace TechnoSystemsApp;
 /// </summary>
 public partial class MainWindow : Window
 {
-    static string userRole;
-    public MainWindow(string role)
+    static User _user;
+    public MainWindow(User user)
     {
         InitializeComponent();
-        MainFrame.Navigate(new TariffPage(role));
-        userRole = role;
+        MainFrame.Navigate(new TariffPage(user));
+        _user = user;
         CheckUserRole();
     }
     public void CheckUserRole()
     {
-        if (userRole == "Гость")
+        if (_user.Role == null)
         {
             NavigationPanel.Visibility = Visibility.Collapsed;
         }
@@ -36,7 +37,7 @@ public partial class MainWindow : Window
 
     private void Tariff_Click(object sender, RoutedEventArgs e)
     {
-        MainFrame.Navigate(new TariffPage(userRole));
+        MainFrame.Navigate(new TariffPage(_user));
     }
 
     private void Requests_Click(object sender, RoutedEventArgs e)

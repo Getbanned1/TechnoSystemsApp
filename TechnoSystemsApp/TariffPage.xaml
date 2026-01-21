@@ -21,8 +21,8 @@
             <Label Content="Сортировать по дате" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="DateSortBox" Width="100" Height="30" VerticalAlignment="Center" SelectionChanged="DateSortBox_SelectionChanged"></ComboBox>
         </StackPanel>
-        <ListBox x:Name="TariffCard" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" Background="Transparent">
+        <ListBox x:Name="TariffCard" Grid.Row="1" SelectedItem="{Binding SelectedItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" Background="Transparent" SelectionChanged="TariffCard_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="#E0E0E0" Grid.Row="1" BorderThickness="1" CornerRadius="8" Margin="5" Padding="10">
